@@ -12,8 +12,8 @@ int main()
 {
     using namespace Graph_lib;
 
-    int xmax = 1280;
-    int ymax = 720;
+    int xmax = 800;
+    int ymax = 1000;
 
     int x_orig = xmax/2;
     int y_orig = ymax/2;
@@ -24,48 +24,61 @@ int main()
     int n_points = 400;
 
     Simple_window win {Point{100,100}, xmax, ymax, "Canvas"};
+    
+    int x_size = 800;
+    int y_size = 800;
+    int x_grid = 100;
+    int y_grid = 100;
+    
+    Lines grid;
+    for (int x = x_grid; x < x_size; x += x_grid)
+        grid.add(Point{x, 0}, Point{x, y_size});   
+    for (int y = y_grid; y < y_size; y += y_grid)
+        grid.add(Point{0, y}, Point{x_size, y});
+        
+    grid.set_color(Color::red);
+    win.attach(grid);
+    win.wait_for_button();
+    
+    
+    Vector_ref<Rectangle> rect;
+    for (int i = 0; i < x_size; i += x_grid) {
+        rect.push_back(new Rectangle{Point{i,i}, Point{i+x_grid,i+x_grid}});
+        rect[rect.size() - 1].set_color(Color::invisible);
+        rect[rect.size() - 1].set_fill_color(Color::red);
+        win.attach(rect[rect.size() - 1]);
+    }
 
-	Point origo {x_orig, y_orig};
+    win.wait_for_button();
+    
+ 
+    
+    Image galaxy1 {Point{0,300}, "galaxy.jpg"};
+    Image galaxy2 {Point{300,600}, "galaxy.jpg"};
+    Image galaxy3 {Point{500,100}, "galaxy.jpg"};
 
-	int xlength = xmax - 40;
-	int ylength = ymax - 40;
+    win.attach(galaxy1);
+    win.attach(galaxy2);
+    win.attach(galaxy3);
+    win.wait_for_button();
+    
+    Image stars {Point{0,0}, "stars.jpg"};
+    win.attach(stars);
+    win.wait_for_button();
 
-	int xscale = 30, yscale = 30;
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            stars.move(100, 0);
+            win.wait_for_button();
+        }
+        stars.move(-700, 100);          
+        win.wait_for_button();
+    }
+    
+  
 
-	Function s (one, rmin, rmax, origo, n_points, xscale, yscale);
-	Function sq (square, rmin, rmax, origo, n_points, xscale, yscale);
-	Function cos_func ( [] (double x) { return cos(x); },
-						rmin, rmax, origo, n_points, xscale, yscale);
 
-	Axis x {Axis::x, Point{20, y_orig}, xlength, xlength/xscale, "x"};
-	Axis y {Axis::y, Point{x_orig, ylength + 20}, ylength, ylength/yscale, "y"};
 
-	Rectangle r {Point{200,200}, 100, 50};
-
-	r.set_fill_color(Color::yellow);
-	r.set_style(Line_style(Line_style::dash, 4));
-
-	Text t {Point{200,400}, "Hello graphics!"};
-	t.set_font(Font::times_bold);
-	t.set_font_size(20);
-
-	Image ii {Point{100,100}, "badge.jpg"};
-
-	Circle c {Point{700,700}, 100};
-
-	Ellipse e {Point{500,500}, 100, 50};
-	e.set_fill_color(Color::red);
-
-	win.attach(e);
-	win.attach(ii);
-	win.attach(c);
-	win.attach(t);
-	win.attach(r);
-	win.attach(s);
-	win.attach(sq);
-	win.attach(cos_func);
-	win.attach(x);
-	win.attach(y);
 
     win.wait_for_button();
 
