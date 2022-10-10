@@ -30,7 +30,7 @@ In order to reach a new remote server you need to choose the *add new ssh host* 
 As an example I describe how you can reach the [shrek.unideb.hu](shrek.unideb.hu) server. For the connection you need execute the following command:
 
 |ssh <network_id>@shrek.unideb.hu -p 2222 |
-------------------------------------------
+|-----------------------------------------|
 
 This ssh command specifies the name of the server and the needed port as well. The network id is a unique identifier for every user. After pressing enter the server requires a password in this case. In some cases when you try to reach the server its type is not clear to the extension, so *VSCode* lets you choose from the options:
 * Windows
